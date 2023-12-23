@@ -9,22 +9,35 @@ fn main() {
         .read_line(&mut first_number)
         .expect("Failed to read your input");
 
-    let first_number: u32 = first_number.trim().parse().expect("Input is NaN");
+    let first_number: i32 = first_number.trim().parse().expect("Input is NaN");
 
     println!("Enter your second number: ");
     let mut second_number: String = String::new();
     io::stdin()
         .read_line(&mut second_number)
         .expect("Failed to read second number");
-    let second_number: u32 = second_number.trim().parse().expect("Input is NaN");
+    let second_number: i32 = second_number.trim().parse().expect("Input is NaN");
 
-    let mut operator: String = String::new();
     println!("Enter your operator: ");
+    let mut operator: String = String::new();
     io::stdin()
         .read_line(&mut operator)
-        .expect("Failed to read entered operator");
+        .expect("Failed to read operator");
+    let operator = operator.trim().to_string();
 
-    println!("Entered first_number is: {first_number}");
-    println!("Entered second_number is: {second_number}");
-    println!("Entered operator is: {operator}");
+    let result = compute_operation(first_number, second_number, operator);
+
+    println!("Result is: {result}");
+}
+
+fn compute_operation(first_number: i32, second_number: i32, operator: String) -> i32 {
+    if operator == "+" {
+        first_number + second_number
+    } else if operator == "-" {
+        first_number - second_number
+    } else if operator == "*" {
+        first_number * second_number
+    } else {
+        first_number / second_number
+    }
 }
