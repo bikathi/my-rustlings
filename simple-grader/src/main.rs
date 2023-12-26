@@ -17,9 +17,7 @@ fn main() {
 
     take_subject_input(&mut subject_number, &mut subject_list, &mut marks_list);
     let grades_list: Vec<char> = calculate_grade(&mut marks_list);
-    println!("Subjects entered: {:?}", subject_list);
-    println!("Subject marks entered: {:?}", marks_list);
-    println!("Grades awarded: {:?}", grades_list);
+    display_result(&subject_list, &marks_list, &grades_list);
 }
 
 fn take_subject_input(counter: &mut i32, sub_list: &mut Vec<String>, mark_list: &mut Vec<i32>) {
@@ -62,4 +60,20 @@ fn calculate_grade(mark_list: &mut Vec<i32>) -> Vec<char> {
     }
 
     grades
+}
+
+fn display_result(sub_list: &Vec<String>, mark_list: &Vec<i32>, grade_list: &Vec<char>) {
+    println!("===== Subject ===== Marks ===== Grade =====");
+    let mut number_of_subjects: usize = sub_list.len();
+
+    while number_of_subjects > 0 {
+        println!(
+            "      {}       {}           {}     ",
+            sub_list[number_of_subjects - 1],
+            mark_list[number_of_subjects - 1],
+            grade_list[number_of_subjects - 1]
+        );
+
+        number_of_subjects -= 1;
+    }
 }
