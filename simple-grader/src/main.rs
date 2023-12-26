@@ -1,11 +1,11 @@
 // a simple grader that asks the user to enter number of subjects to grade, enter the subject and the mark and
 // assigns grades and does an average, displaying the final output in a user-friendly manner
 
-use std::io;
+use std::{io, vec};
 
 fn main() {
     let mut subject_number: String = String::new();
-    let mut subject_list: Vec<i32> = vec![];
+    let mut subject_list: Vec<String> = vec![];
     let mut marks_list: Vec<i32> = vec![];
 
     println!("How many subjects do you want to grade?: ");
@@ -16,10 +16,13 @@ fn main() {
     let mut subject_number: i32 = subject_number.trim().parse().expect("Input is NaN");
 
     take_subject_input(&mut subject_number, &mut subject_list, &mut marks_list);
+    let grades_list: Vec<char> = calculate_grade(&mut marks_list);
+    println!("Subjects entered: {:?}", subject_list);
+    println!("Subject marks entered: {:?}", marks_list);
+    println!("Grades awarded: {:?}", grades_list);
 }
 
-fn take_subject_input(counter: &mut i32, sub_list: &mut Vec<i32>, mark_list: &mut Vec<i32>) {
-    println!("Inside the take_subject_input function");
+fn take_subject_input(counter: &mut i32, sub_list: &mut Vec<String>, mark_list: &mut Vec<i32>) {
     while *counter > 0 {
         // take each subject and marks for the subject pushing into the relevant vec!
         println!("Enter {} subject name: ", *counter);
@@ -27,7 +30,8 @@ fn take_subject_input(counter: &mut i32, sub_list: &mut Vec<i32>, mark_list: &mu
         io::stdin()
             .read_line(&mut subject_name)
             .expect("Unable to read subject name");
-        let subject_name: &str = subject_name.trim();
+        let subject_name = subject_name.trim();
+        sub_list.push(String::from(subject_name));
 
         println!("Enter {} marks: ", subject_name);
         let mut subject_mark: String = String::new();
@@ -35,8 +39,27 @@ fn take_subject_input(counter: &mut i32, sub_list: &mut Vec<i32>, mark_list: &mu
             .read_line(&mut subject_mark)
             .expect("Unable to read subject marks");
         let subject_mark: i32 = subject_mark.trim().parse().expect("Mark is NaN");
-        println!("Student has {} marks in {}", subject_mark, subject_name);
+        mark_list.push(subject_mark);
 
         *counter -= 1;
     }
+}
+
+fn calculate_grade(mark_list: &mut Vec<i32>) -> Vec<char> {
+    let mut grades: Vec<char> = vec![];
+    for mark in mark_list {
+        let grade: char = if *mark >= 40 {
+            'A'
+        } else if *mark >= 30 && *mark < 40 {
+            'B'
+        } else if *mark >= 20 && *mark < 30 {
+            'C'
+        } else {
+            'D'
+        };
+
+        grades.push(grade);
+    }
+
+    grades
 }
